@@ -5,8 +5,6 @@ var request = require('request');
 var cheerio = require('cheerio');
 const config = require('dotenv').load();
 
-//const news = require('./news');
-const async = require('async');
 const expressValidator = require("express-validator");
 
 const { check, validationResult } = require('express-validator/check');
@@ -27,7 +25,7 @@ async(req, res, next)=>{
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.mapped() });
     if(req.body.district === '') return res.status(400).json({message: 'Please complete the form'});
 
-    var url = 'http://banjarmasin.tribunnews.com/kalsel/'+req.body.district;
+    var url = process.env.BASER_URL+req.body.district;
     
     request(url, function(err, response, html) {
       if (!err){
@@ -75,9 +73,6 @@ async(req, res, next)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.mapped() });
     if(req.body.url === '') return res.status(400).json({message: 'Please complete the form'});
-
-    //var url = 'http://banjarmasin.tribunnews.com/kalsel/'+req.body.district;
-    console.log(req.body.url);
     request(req.body.url, function(err, resp, html) {
       if (!err && resp.statusCode === 200){
           const $ = cheerio.load(html);
@@ -102,6 +97,5 @@ async(req, res, next)=>{
 
 app.use('/api', router);
 module.exports = app.listen(process.env.PORT, () => {
-  
   console.log("Server listening on port " + process.env.PORT);
 });
