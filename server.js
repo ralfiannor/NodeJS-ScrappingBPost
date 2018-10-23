@@ -97,6 +97,5 @@ async(req, res, next)=>{
 
 app.use('/api', router);
 module.exports = app.listen(process.env.PORT, () => {
-  
   console.log("Server listening on port " + process.env.PORT);
 });

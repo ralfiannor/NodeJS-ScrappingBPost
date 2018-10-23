@@ -1,3 +1,8 @@
+# Required
+- Web server
+- Node JS
+- NPM
+
 # Command to install and Run :
 - npm install
 - node server
